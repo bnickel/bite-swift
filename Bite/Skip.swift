@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Brian Nickel. All rights reserved.
 //
 
-struct SkipGenerator<T where T:Generator> : Generator {
+public struct SkipGenerator<T where T:GeneratorType> : GeneratorType {
     let count:Int
     var source:T
     var skipped = false
@@ -16,11 +16,11 @@ struct SkipGenerator<T where T:Generator> : Generator {
         self.source = source
     }
     
-    mutating func next() -> T.Element? {
+    public mutating func next() -> T.Element? {
         if !skipped {
             skipped = true
             var remaining = count
-            while remaining > 0 && source.next() {
+            while remaining > 0 && source.next() != nil {
                 remaining--
             }
         }
@@ -28,7 +28,7 @@ struct SkipGenerator<T where T:Generator> : Generator {
     }
 }
 
-struct SkipSequence<T where T:Sequence> : Sequence {
+public struct SkipSequence<T where T:SequenceType> : SequenceType {
     
     let count:Int
     let source:T
@@ -38,7 +38,7 @@ struct SkipSequence<T where T:Sequence> : Sequence {
         self.source = source
     }
     
-    func generate() -> SkipGenerator<T.GeneratorType> {
+    public func generate() -> SkipGenerator<T.Generator> {
         return SkipGenerator(source.generate(), count: count)
     }
 }

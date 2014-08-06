@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Brian Nickel. All rights reserved.
 //
 
-struct TakeGenerator<T where T:Generator> : Generator {
+public struct TakeGenerator<T where T:GeneratorType> : GeneratorType {
     var remaining:Int
     var source:T
     
@@ -15,14 +15,14 @@ struct TakeGenerator<T where T:Generator> : Generator {
         self.source = source
     }
     
-    mutating func next() -> T.Element? {
+    public mutating func next() -> T.Element? {
         if remaining <= 0 { return nil }
         remaining -= 1
         return source.next()
     }
 }
 
-struct TakeSequence<T where T:Sequence> : Sequence {
+public struct TakeSequence<T where T:SequenceType> : SequenceType {
     
     let count:Int
     let source:T
@@ -32,7 +32,7 @@ struct TakeSequence<T where T:Sequence> : Sequence {
         self.source = source
     }
     
-    func generate() -> TakeGenerator<T.GeneratorType> {
+    public func generate() -> TakeGenerator<T.Generator> {
         return TakeGenerator(source.generate(), count: count)
     }
 }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Brian Nickel. All rights reserved.
 //
 
-struct AndGenerator<T:Generator, U:Generator where T.Element == U.Element> : Generator {
+public struct AndGenerator<T:GeneratorType, U:GeneratorType where T.Element == U.Element> : GeneratorType {
     var firstIsFinished = false
     var firstSource:T
     var secondSource:U
@@ -16,7 +16,7 @@ struct AndGenerator<T:Generator, U:Generator where T.Element == U.Element> : Gen
         self.secondSource = secondSource
     }
     
-    mutating func next() -> T.Element? {
+    public mutating func next() -> T.Element? {
         if !firstIsFinished {
             if let element = firstSource.next() {
                 return element
@@ -28,7 +28,7 @@ struct AndGenerator<T:Generator, U:Generator where T.Element == U.Element> : Gen
     }
 }
 
-struct AndSequence<T:Sequence, U:Sequence where T.GeneratorType.Element == U.GeneratorType.Element> : Sequence {
+public struct AndSequence<T:SequenceType, U:SequenceType where T.Generator.Element == U.Generator.Element> : SequenceType {
     
     var firstSource:T
     var secondSource:U
@@ -38,7 +38,7 @@ struct AndSequence<T:Sequence, U:Sequence where T.GeneratorType.Element == U.Gen
         self.secondSource = secondSource
     }
     
-    func generate() -> AndGenerator<T.GeneratorType, U.GeneratorType> {
-        return AndGenerator<T.GeneratorType, U.GeneratorType>(firstSource.generate(), secondSource.generate())
+    public func generate() -> AndGenerator<T.Generator, U.Generator> {
+        return AndGenerator<T.Generator, U.Generator>(firstSource.generate(), secondSource.generate())
     }
 }

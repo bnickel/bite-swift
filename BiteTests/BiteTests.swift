@@ -12,9 +12,9 @@ import Bite
 class BiteTests: XCTestCase {
     
     //var primes:PrimeSequence!
-    let numbers = 0..100
-    let even = filter (0..100) { $0 % 2 == 0 }
-    let odd = filter (0..100) { $0 % 2 == 1 }
+    let numbers = 0 ..< 100
+    let even = stride(from: 0, through: 98, by: 2)
+    let odd = stride(from: 1, through: 99, by: 2)
 
     override func setUp() {
         super.setUp()
@@ -32,10 +32,10 @@ class BiteTests: XCTestCase {
     func testThatTakeLimitsTheNumberOfIteratorExecutions() {
         
         var executionCount = 0
-        let bite = Bite(map(numbers, { x -> Int in
+        let bite = Bite(numbers).map() { x -> Int in
             executionCount += 1
             return x
-        }))
+        }
         
         let firstCount = bite.take(10).count
         XCTAssertEqual(executionCount, firstCount, "Should have limited the number of times map executed")
@@ -46,13 +46,13 @@ class BiteTests: XCTestCase {
     }
     
     func testThatTakeReturnsTheFrontOfTheEnumerator() {
-        let expected = Array(0..10)
+        let expected = Array(0 ..< 10)
         let actual = Bite(numbers).take(10).array()
         XCTAssertTrue(expected == actual, "\(expected) did not equal \(actual)")
     }
     
     func testSkip() {
-        let expected = Array(15..20)
+        let expected = Array(15 ..< 20)
         let actual = Bite(numbers).skip(15).take(5).array()
         XCTAssertTrue(expected == actual, "\(expected) did not equal \(actual)")
     }
@@ -71,13 +71,13 @@ class BiteTests: XCTestCase {
     
     func testAddition() {
         let expected = Array(numbers)
-        let actual = sort((Bite(odd) + even).array())
+        let actual = sorted(Bite(odd).and(even))
         XCTAssertTrue(expected == actual, "\(expected) did not equal \(actual)")
     }
     
     func testAdditionOfOne() {
         let expected = [1,2,3,4]
-        let actual = (Bite([1,2,3]) + 4).array()
+        let actual = Bite([1,2,3]).and([4]).array()
         XCTAssertTrue(expected == actual, "\(expected) did not equal \(actual)")
     }
     
@@ -119,22 +119,22 @@ class BiteTests: XCTestCase {
     }
     
     func testFoldLeft() {
-        let result = Bite(1..3).foldLeft("i") { "(\($0)) - (\($1))" }
+        let result = Bite(1 ..< 3).foldLeft("i") { "(\($0)) - (\($1))" }
         XCTAssertEqual("((i) - (1)) - (2)", result, "Should have folded left")
     }
     
     func testReduceLeft() {
-        let shortestWord = Bite(["space", "ant", "cart", "squash", "bug", "time"]).reduceLeft({ acc, word in return word.utf16count < acc.utf16count ? word : acc })!
+        let shortestWord = Bite(["space", "ant", "cart", "squash", "bug", "time"]).reduceLeft({ acc, word in return word.utf16Count < acc.utf16Count ? word : acc })!
         XCTAssertEqual("ant", shortestWord, "Should have folded left.")
     }
     
     func testFoldRight() {
-        let result = Bite(1..3).foldRight("i") { "(\($0)) - (\($1))" }
+        let result = Bite(1 ..< 3).foldRight("i") { "(\($0)) - (\($1))" }
         XCTAssertEqual("(1) - ((2) - (i))", result, "Should have folded left")
     }
     
     func testReduceRight() {
-        let shortestWord = Bite(["space", "ant", "cart", "squash", "bug", "time"]).reduceRight({ word, acc in return word.utf16count < acc.utf16count ? word : acc })!
+        let shortestWord = Bite(["space", "ant", "cart", "squash", "bug", "time"]).reduceRight({ word, acc in return word.utf16Count < acc.utf16Count ? word : acc })!
         XCTAssertEqual("bug", shortestWord, "Should have folded left.")
     }
 }

@@ -15,6 +15,8 @@
 		EB8F95A91947C35C0097FAD1 /* Bite.h in Headers */ = {isa = PBXBuildFile; fileRef = EB8F95A81947C35C0097FAD1 /* Bite.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EB8F95AF1947C35C0097FAD1 /* Bite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB8F95A31947C35C0097FAD1 /* Bite.framework */; };
 		EB8F95C01947C3AA0097FAD1 /* Bite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB8F95BF1947C3AA0097FAD1 /* Bite.swift */; };
+		EBE7D4611992A99600D2B20D /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE7D4601992A99600D2B20D /* Filter.swift */; };
+		EBE7D4631992AE4C00D2B20D /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE7D4621992AE4C00D2B20D /* Map.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		EB8F95B51947C35C0097FAD1 /* PerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTests.swift; sourceTree = "<group>"; };
 		EB8F95BF1947C3AA0097FAD1 /* Bite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bite.swift; sourceTree = "<group>"; };
 		EB8F95C51947C4450097FAD1 /* Playground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Playground.playground; sourceTree = "<group>"; };
+		EBE7D4601992A99600D2B20D /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		EBE7D4621992AE4C00D2B20D /* Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +108,8 @@
 				EB21A22F1949297D00A10076 /* Take.swift */,
 				EB242A78194F6529008D613E /* TakeWhile.swift */,
 				EB242A7C194F99C6008D613E /* And.swift */,
+				EBE7D4601992A99600D2B20D /* Filter.swift */,
+				EBE7D4621992AE4C00D2B20D /* Map.swift */,
 				EB8F95C51947C4450097FAD1 /* Playground.playground */,
 				EB8F95A61947C35C0097FAD1 /* Supporting Files */,
 			);
@@ -248,7 +254,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				EB242A79194F6529008D613E /* TakeWhile.swift in Sources */,
+				EBE7D4611992A99600D2B20D /* Filter.swift in Sources */,
 				EB21A2301949297D00A10076 /* Take.swift in Sources */,
+				EBE7D4631992AE4C00D2B20D /* Map.swift in Sources */,
 				EB8F95C01947C3AA0097FAD1 /* Bite.swift in Sources */,
 				EB242A7D194F99C6008D613E /* And.swift in Sources */,
 				EB242A77194F58E6008D613E /* Skip.swift in Sources */,
