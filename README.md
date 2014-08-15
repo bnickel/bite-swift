@@ -5,7 +5,7 @@ Bite is a lazy chaining functional enumeration library for Swift.
 ### Motivation
 
  - Swift has chained `filter`, `map`, etc functions on arrays, but they are not lazy.  If you only want the first element meeting your critera you will create multiple intermedate arrays.
- - Swift has global functions lazy like `map` and `filter` but they are awkward to chain, you have to do `map(filter(seq, { ... }), { ... })`.
+ - Swift has global functions like `map` and `filter` but they are not lazy (every element will get mapped or filtered) and awkward to chain: `map(filter(seq, { ... }), { ... })`.
  - There are other beneficial transforms like `take(Int)`, `skip(Int)`, `groupBy(...)` and collectors `foldLeft(...)`, `any(...)`, that can be added.
 
 ### Prior art
@@ -17,7 +17,7 @@ Bite is a lazy chaining functional enumeration library for Swift.
 
 ### Installation
 
-Completely untested.  It's a framework project right now, so ... take the built product?
+No idea.  It's a framework project right now, so ... take the built product?
 
 ### Creating a bite
 
@@ -44,31 +44,30 @@ for picture in bite2.take(5).map(processImage) {
 
 - `take(count: Int) -> Bite` Stops iterating after `count` elements are iterated.
 - `skip(count: Int) -> Bite` Skips over `count` elements.
-- `map<U>(transform: T.GeneratorType.Element -> U) -> Bite` Passes each element through a mapping function and iterates the results.
-- `filter(includeElement: T.GeneratorType.Element -> Bool) -> Bite` Only iterates elements that pass a test.
-- `takeWhile(includeElement: T.GeneratorType.Element -> Bool) -> Bite` Stops iterating when the test fails.
-- `takeUntil(excludeElement: T.GeneratorType.Element -> Bool) -> Bite` Stops iterating when the test passes.
-- `+ (lhs:Bite, rhs:Sequence)` Concatenates the sequence with another, assuming they have the same element type.
-- `+ (lhs:Bite, rhs:U)` Appends an element to the sequence if U is of the same type.
+- `map<U>(transform: T.Generator.Element -> U) -> Bite` Passes each element through a mapping function and iterates the results.
+- `filter(includeElement: T.Generator.Element -> Bool) -> Bite` Only iterates elements that pass a test.
+- `takeWhile(includeElement: T.Generator.Element -> Bool) -> Bite` Stops iterating when the test fails.
+- `takeUntil(excludeElement: T.Generator.Element -> Bool) -> Bite` Stops iterating when the test passes.
+- `and(sequence:U) -> Bite` Concatenates with another sequence with the same element type.
 
 ### Evaluating/Collecting
 
 - `var count: Int` Returns the number of elements in the enumerator.
-- `var firstElement: T.GeneratorType.Element?` Returns the first item or `nil` if the enumerator is empty.  Can be used safely on infinite sequences.
-- `var lastElement: T.GeneratorType.Element?` Returns the last item or `nil` if the enumerator is empty.
+- `var firstElement: T.Generator.Element?` Returns the first item or `nil` if the enumerator is empty.  Can be used safely on infinite sequences.
+- `var lastElement: T.Generator.Element?` Returns the last item or `nil` if the enumerator is empty.
 
-- `array() -> Array<T.GeneratorType.Element>` Creates an array. **Sequence must be finite.**
-- `dictionary(pairs: T.GeneratorType.Element -> (KeyType, ValueType)) -> Dictionary<KeyType, ValueType>` Creates a dictionary.  If the enumerator already contains pairs, you can pass `{ $0 }` as the mapping function.
-- `groupBy(transform: T.GeneratorType.Element -> KeyType) -> Bite<Dictionary<KeyType, Array<T.GeneratorType.Element>>>`. Iterates through the group and generates pairs with the mapped key and an array of corresponding items.
+- `array() -> Array<T.Generator.Element>` Creates an array. **Sequence must be finite.**
+- `dictionary(pairs: T.Generator.Element -> (KeyType, ValueType)) -> Dictionary<KeyType, ValueType>` Creates a dictionary.  If the enumerator already contains pairs, you can pass `{ $0 }` as the mapping function.
+- `groupBy(transform: T.Generator.Element -> KeyType) -> Bite<Dictionary<KeyType, Array<T.GeneratorType.Element>>>`. Iterates through the group and generates pairs with the mapped key and an array of corresponding items.
 
-- `any(test: T.GeneratorType.Element -> Bool) -> Bool` Returns `true` if any item in the enumerator passes the test and stops iterating.
-- `all(test: T.GeneratorType.Element -> Bool) -> Bool` Returns `true` if all items in the enumerator pass the test.  Returns `false` and stops iterating as soon as the test fails.
+- `any(test: T.Generator.Element -> Bool) -> Bool` Returns `true` if any item in the enumerator passes the test and stops iterating.
+- `all(test: T.Generator.Element -> Bool) -> Bool` Returns `true` if all items in the enumerator pass the test.  Returns `false` and stops iterating as soon as the test fails.
 
-- `foldLeft<U>(inital: U, combine: (U, T.GeneratorType.Element) -> U) -> U` Folds left with an initial accumulator value.
-- `foldRight<U>(inital: U, combine: (T.GeneratorType.Element, U) -> U) -> U` Folds right with an initial accumulator value.
+- `foldLeft<U>(inital: U, combine: (U, T.Generator.Element) -> U) -> U` Folds left with an initial accumulator value.
+- `foldRight<U>(inital: U, combine: (T.Generator.Element, U) -> U) -> U` Folds right with an initial accumulator value.
 
-- `reduceLeft(combine: (T.GeneratorType.Element, T.GeneratorType.Element) -> T.GeneratorType.Element) -> T.GeneratorType.Element?` Reduces left or returns `nil` if the sequence is empty.
-- `reduceRight(combine: (T.GeneratorType.Element, T.GeneratorType.Element) -> T.GeneratorType.Element) -> T.GeneratorType.Element? ` Reduces right or returns `nil` if the sequence is empty.
+- `reduceLeft(combine: (T.Generator.Element, T.Generator.Element) -> T.Generator.Element) -> T.GeneratorType.Element?` Reduces left or returns `nil` if the sequence is empty.
+- `reduceRight(combine: (T.Generator.Element, T.Generator.Element) -> T.Generator.Element) -> T.GeneratorType.Element? ` Reduces right or returns `nil` if the sequence is empty.
 
 
 ## Examples
